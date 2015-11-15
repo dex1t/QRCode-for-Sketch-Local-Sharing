@@ -1,0 +1,24 @@
+{
+  "author" : "dex1t",
+  "identifier" : "org.degoo.qrcode-for-local-sharing",
+  "version" : "0.1",
+  "description" : "Show QR Code for Local Sharing",
+  "authorEmail" : "dex1t@degoo.org",
+  "name" : "QRCode for Local Sharing",
+  "compatibleVersion": 3.4,
+  "commands" : [
+    {
+      "script" : "main.cocoascript",
+      "handler" : "onRun",
+      "shortcut" : "",
+      "name" : "Show QR Code",
+      "identifier" : "show-qr-code"
+    }
+  ],
+  "menu" : {
+    "items" : [
+      "show-qr-code"
+    ],
+    "title" : "QRCode for Local Sharing"
+  }
+}

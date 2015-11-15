@@ -1,0 +1,30 @@
+@import 'utils.cocoascript'
+
+var onRun = function(context) {
+  var ip = utils.getIPAddress();
+  var endpoint = 'http://' + ip + ':8080/_server/api/list';
+  var localSharingEndpoint = utils.getLocalSharingEndpoint(endpoint);
+  if(!localSharingEndpoint) {
+    context.document.showMessage('Please run local sharing');
+    return;
+  }
+
+  // TODO: Support multi pj
+  var qr = utils.getQRImage(localSharingEndpoint.result[0]['url']);
+  if(!qr) {
+    context.document.showMessage('Failed to create QR Code');
+    return;
+  }
+
+  var dialog = COSAlertWindow.new();
+  dialog.addButtonWithTitle('Close');
+  dialog.setMessageText('Read on your mobile');
+
+  var imageView = NSImageView.alloc().initWithFrame(NSMakeRect(0, 0, 200, 200));
+  imageView.setImage(qr);
+  var accessoryView = NSView.alloc().initWithFrame(NSMakeRect(0, 0, 200, 200));
+  accessoryView.addSubview(imageView);
+
+  dialog.addAccessoryView(accessoryView);
+  dialog.runModal();
+};

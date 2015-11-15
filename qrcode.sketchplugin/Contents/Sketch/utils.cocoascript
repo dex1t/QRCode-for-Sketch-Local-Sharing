@@ -1,0 +1,36 @@
+var utils = {
+  'getIPAddress': function() {
+    var ips = [[NSHost currentHost] addresses];
+    var ipv4;
+
+    for(i=0; i < ips.length(); i++) {
+      var ip = ips[i];
+      if (!ip.hasPrefix("127") && ip.componentsSeparatedByString(".").count() == 4) {
+        ipv4 = ip;
+        log(ipv4);
+        break;
+      }
+    }
+
+    return ipv4;
+  },
+  'getLocalSharingEndpoint': function(url) {
+    var request = NSURLRequest.requestWithURL(NSURL.URLWithString(url));
+    var response = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, null, null);
+    if (!response) {
+      return null;
+    } else {
+      return [NSJSONSerialization JSONObjectWithData: response options: nil error: nil];
+    }
+  },
+  'getQRImage': function(url) {
+    var googleChartEndpoint = "https://chart.googleapis.com/chart?cht=qr&chs=200x200&choe=utf-8&chl=" + encodeURIComponent(url);
+    var request = NSURLRequest.requestWithURL(NSURL.URLWithString(googleChartEndpoint));
+    var response = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, null, null);
+    if (!response) {
+      return null;
+    } else {
+      return NSImage.alloc().initWithData(response);
+    }
+  }
+};
